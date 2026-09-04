@@ -431,20 +431,34 @@ impl<'a> HybridSearch<'a> {
                 Err(_) => return Vec::new(),
             };
 
-            // Query vec_embeddings for nearest neighbors
-            let sql = "SELECT v.node_id, v.distance, n.name, n.type, n.file_path
-                        FROM vec_embeddings v
-                        JOIN nodes n ON n.id = v.node_id
-                        WHERE v.embedding MATCH ?1
-                        ORDER BY v.distance
-                        LIMIT ?2";
+            // Query vec_embeddings for nearest neighbors.
+            //
+            // sqlite-vec 的 vec0 表有两条硬约束，直接 JOIN + MATCH 会被拒：
+            //   1. KNN 查询的 LIMIT 必须是字面量整数，不能用绑定参数
+            //   2. vec0 虚拟表的 KNN 查询不能直接与普通表 JOIN 后做 MATCH
+            //      （否则报 "A LIMIT or 'k = ?' constraint is required on
+            //      vec0 knn queries"）
+            // 因此把 KNN 查询独立成子查询，JOIN 放最外层；limit 用 format!
+            // 内插为字面量（limit 来自内部调用方 SearchOptions.limit 的整倍数，
+            // 非用户输入，且为 usize，拼接无注入风险）。
+            let sql = format!(
+                "SELECT v.node_id, v.distance, n.name, n.type, n.file_path
+                        FROM (
+                            SELECT node_id, distance
+                            FROM vec_embeddings
+                            WHERE embedding MATCH ?1
+                            ORDER BY distance
+                            LIMIT {limit}
+                        ) v
+                        JOIN nodes n ON n.id = v.node_id"
+            );
 
-            let mut stmt = match self.conn.prepare_cached(sql) {
+            let mut stmt = match self.conn.prepare(&sql) {
                 Ok(s) => s,
                 Err(_) => return Vec::new(),
             };
 
-            let rows = match stmt.query_map(params![vec_json, limit], |row| {
+            let rows = match stmt.query_map(params![vec_json], |row| {
                 Ok((
                     row.get::<_, String>(0)?,
                     row.get::<_, f64>(1)?,

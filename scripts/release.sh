@@ -52,6 +52,6 @@ fi
 
 ok "Released v${VERSION} — GitHub + npm synced!"
 echo ""
-echo "  GitHub: https://github.com/suatkocar/codegraph/releases/tag/v${VERSION}"
-echo "  npm:    https://www.npmjs.com/package/@suatkocar/codegraph"
+echo "  GitHub: https://github.com/workmule/codegraph/releases/tag/v${VERSION}"
+echo "  npm:    https://www.npmjs.com/package/@workmule/codegraph"
 echo ""

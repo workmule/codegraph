@@ -8,16 +8,16 @@ Choose one:
 
 ```bash
 # macOS / Linux (recommended)
-curl -fsSL https://raw.githubusercontent.com/nickolay-grechkin/codegraph/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/workmule/codegraph/main/install.sh | bash
 
 # macOS (Homebrew)
-brew install nickolay-grechkin/codegraph/codegraph
+brew install workmule/codegraph/codegraph
 
 # Windows (PowerShell)
-irm https://raw.githubusercontent.com/nickolay-grechkin/codegraph/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/workmule/codegraph/main/install.ps1 | iex
 
 # From source (all platforms)
-cargo install --git https://github.com/nickolay-grechkin/codegraph
+cargo install --git https://github.com/workmule/codegraph
 ```
 
 Verify:

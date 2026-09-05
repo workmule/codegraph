@@ -256,7 +256,7 @@ else
 fi
 
 REPORT+="---\n"
-REPORT+="*Scanned by [CodeGraph](https://github.com/suatkocar/codegraph) v$(codegraph --version 2>/dev/null | head -1 || echo 'unknown')*\n"
+REPORT+="*Scanned by [CodeGraph](https://github.com/workmule/codegraph) v$(codegraph --version 2>/dev/null | head -1 || echo 'unknown')*\n"
 
 # ---------------------------------------------------------------------------
 # Step 9: Write to GitHub Step Summary

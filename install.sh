@@ -2,7 +2,7 @@
 # CodeGraph installer — downloads the latest release binary for your platform.
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/suatkocar/codegraph/main/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/workmule/codegraph/main/install.sh | bash
 #
 # Environment variables:
 #   CODEGRAPH_VERSION   — Version tag to install (default: latest)
@@ -10,7 +10,7 @@
 
 set -eo pipefail
 
-REPO="suatkocar/codegraph"
+REPO="workmule/codegraph"
 BINARY="codegraph"
 INSTALL_DIR="${CODEGRAPH_INSTALL:-$HOME/.local/bin}"
 
@@ -27,7 +27,7 @@ detect_platform() {
 
   case "$(uname -s)" in
     Darwin) os="apple-darwin" ;;
-    Linux)  os="unknown-linux-gnu" ;;
+    Linux)  os="unknown-linux" ;;
     *)      err "Unsupported OS: $(uname -s). Only macOS and Linux are supported." ;;
   esac
 
@@ -36,6 +36,16 @@ detect_platform() {
     arm64|aarch64)   arch="aarch64" ;;
     *)               err "Unsupported architecture: $(uname -m)" ;;
   esac
+
+  # x86_64 Linux uses a fully static musl build (runs on any glibc version);
+  # arm64 Linux uses the gnu build.
+  if [ "$os" = "unknown-linux" ]; then
+    if [ "$arch" = "x86_64" ]; then
+      os="unknown-linux-musl"
+    else
+      os="unknown-linux-gnu"
+    fi
+  fi
 
   echo "${arch}-${os}"
 }

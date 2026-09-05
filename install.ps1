@@ -16,7 +16,7 @@
     Custom installation directory (default: $env:LOCALAPPDATA\Programs\codegraph)
 
 .EXAMPLE
-    irm https://raw.githubusercontent.com/nickolay-grechkin/codegraph/main/install.ps1 | iex
+    irm https://raw.githubusercontent.com/workmule/codegraph/main/install.ps1 | iex
 
 .EXAMPLE
     .\install.ps1 -FromSource
@@ -35,7 +35,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 # Configuration
-$Repo = "nickolay-grechkin/codegraph"
+$Repo = "workmule/codegraph"
 $BinaryName = "codegraph.exe"
 
 # Colors for output

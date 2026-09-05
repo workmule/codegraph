@@ -5,7 +5,7 @@ edition = "2021"
 authors = ["Suat Kocar"]
 description = "Codebase intelligence MCP server — 32 languages, 46 tools, semantic code graph"
 license = "MIT"
-repository = "https://github.com/suatkocar/codegraph"
+repository = "https://github.com/workmule/codegraph"
 keywords = ["mcp", "claude", "code-intelligence", "tree-sitter", "semantic-search"]
 categories = ["development-tools", "command-line-utilities"]
 

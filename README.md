@@ -30,15 +30,15 @@ Two steps. That's it.
 Pick one:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/suatkocar/codegraph/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/workmule/codegraph/main/install.sh | bash
 ```
 
 ```bash
-brew tap suatkocar/codegraph && brew install codegraph
+brew tap workmule/codegraph && brew install codegraph
 ```
 
 ```bash
-npx @suatkocar/codegraph init
+npx @workmule/codegraph init
 ```
 
 ```bash

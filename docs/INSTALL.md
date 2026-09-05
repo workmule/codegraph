@@ -7,25 +7,25 @@ CodeGraph can be installed on macOS, Linux, and Windows through multiple methods
 ### macOS / Linux (recommended)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/nickolay-grechkin/codegraph/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/workmule/codegraph/main/install.sh | bash
 ```
 
 ### macOS (Homebrew)
 
 ```bash
-brew install nickolay-grechkin/codegraph/codegraph
+brew install workmule/codegraph/codegraph
 ```
 
 ### Windows (PowerShell)
 
 ```powershell
-irm https://raw.githubusercontent.com/nickolay-grechkin/codegraph/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/workmule/codegraph/main/install.ps1 | iex
 ```
 
 ### All platforms (Cargo)
 
 ```bash
-cargo install --git https://github.com/nickolay-grechkin/codegraph
+cargo install --git https://github.com/workmule/codegraph
 ```
 
 ## Platform-Specific Instructions
@@ -38,17 +38,17 @@ Supported architectures:
 
 **Option 1: Homebrew** (recommended)
 ```bash
-brew install nickolay-grechkin/codegraph/codegraph
+brew install workmule/codegraph/codegraph
 ```
 
 **Option 2: Install script**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/nickolay-grechkin/codegraph/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/workmule/codegraph/main/install.sh | bash
 ```
 
 **Option 3: Binary download**
 
-Download the correct binary for your architecture from the [releases page](https://github.com/nickolay-grechkin/codegraph/releases):
+Download the correct binary for your architecture from the [releases page](https://github.com/workmule/codegraph/releases):
 - `codegraph-aarch64-apple-darwin.tar.gz` (Apple Silicon)
 - `codegraph-x86_64-apple-darwin.tar.gz` (Intel)
 
@@ -60,7 +60,7 @@ mv codegraph ~/.local/bin/
 
 **Option 4: From source**
 ```bash
-cargo install --git https://github.com/nickolay-grechkin/codegraph
+cargo install --git https://github.com/workmule/codegraph
 ```
 
 ### Linux
@@ -70,22 +70,22 @@ Supported architectures:
 
 **Option 1: Install script** (recommended)
 ```bash
-curl -fsSL https://raw.githubusercontent.com/nickolay-grechkin/codegraph/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/workmule/codegraph/main/install.sh | bash
 ```
 
 **Option 2: Binary download**
 
-Download `codegraph-x86_64-unknown-linux-gnu.tar.gz` from the [releases page](https://github.com/nickolay-grechkin/codegraph/releases).
+Download `codegraph-x86_64-unknown-linux-musl.tar.gz` (fully static, runs on any Linux) from the [releases page](https://github.com/workmule/codegraph/releases).
 
 ```bash
-tar xzf codegraph-x86_64-unknown-linux-gnu.tar.gz
+tar xzf codegraph-x86_64-unknown-linux-musl.tar.gz
 chmod +x codegraph
 sudo mv codegraph /usr/local/bin/
 ```
 
 **Option 3: From source**
 ```bash
-cargo install --git https://github.com/nickolay-grechkin/codegraph
+cargo install --git https://github.com/workmule/codegraph
 ```
 
 ### Windows
@@ -97,7 +97,7 @@ Requires Windows 10 or later.
 
 **Option 1: PowerShell installer** (recommended)
 ```powershell
-irm https://raw.githubusercontent.com/nickolay-grechkin/codegraph/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/workmule/codegraph/main/install.ps1 | iex
 ```
 
 The installer automatically downloads the binary, configures PATH, and detects installed AI editors.
@@ -118,7 +118,7 @@ Prerequisites:
 - Visual Studio Build Tools with "Desktop development with C++"
 
 ```bash
-cargo install --git https://github.com/nickolay-grechkin/codegraph
+cargo install --git https://github.com/workmule/codegraph
 ```
 
 ## Building from Source
@@ -130,7 +130,7 @@ Prerequisites:
 
 ```bash
 # Clone the repository
-git clone https://github.com/nickolay-grechkin/codegraph.git
+git clone https://github.com/workmule/codegraph.git
 cd codegraph
 
 # Full build with embeddings (~45MB binary)
@@ -241,7 +241,7 @@ brew upgrade codegraph
 
 ### Cargo
 ```bash
-cargo install --git https://github.com/nickolay-grechkin/codegraph --force
+cargo install --git https://github.com/workmule/codegraph --force
 ```
 
 ### PowerShell

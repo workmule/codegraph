@@ -1,11 +1,11 @@
-# @suatkocar/codegraph
+# @workmule/codegraph
 
 **Codebase intelligence as an MCP server.** Native Rust. Sub-second indexing. Zero runtime dependencies.
 
 ## Install
 
 ```bash
-npx @suatkocar/codegraph init
+npx @workmule/codegraph init
 ```
 
 One command: downloads the binary, indexes your codebase, registers MCP server, installs hooks.
@@ -13,14 +13,14 @@ One command: downloads the binary, indexes your codebase, registers MCP server, 
 Or install globally:
 
 ```bash
-npm install -g @suatkocar/codegraph
+npm install -g @workmule/codegraph
 codegraph init
 ```
 
 Or install without npm:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/suatkocar/codegraph/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/workmule/codegraph/main/install.sh | bash
 codegraph init
 ```
 
@@ -28,4 +28,4 @@ codegraph init
 
 CodeGraph builds a semantic graph of your codebase (32 languages, 44 MCP tools) and makes it instantly available to AI coding agents. **68% fewer tokens** per task compared to reading all files.
 
-See [GitHub](https://github.com/suatkocar/codegraph) for full documentation.
+See [GitHub](https://github.com/workmule/codegraph) for full documentation.

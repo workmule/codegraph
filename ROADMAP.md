@@ -38,7 +38,7 @@
 | **wrale/mcp-server-tree-sitter** | 254 | 30+ | Multi | Python | Most comprehensive pure tree-sitter MCP |
 | **postrv/narsil-mcp** | 92 | 90 | 32 | Rust | Appears derivative of our CodeGraph |
 | **colbymchenry/codegraph** | 100 | 7 | 15 | Node.js | One-liner install, Explore agent targeting |
-| **suatkocar/codegraph (us)** | — | 45 | 32 | Rust | Hooks, security, git, data flow |
+| **workmule/codegraph (us)** | — | 45 | 32 | Rust | Hooks, security, git, data flow |
 
 ### Commercial Tools
 

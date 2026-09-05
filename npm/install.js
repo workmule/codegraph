@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * postinstall script for @suatkocar/codegraph
+ * postinstall script for @workmule/codegraph
  *
  * Downloads the correct platform binary from GitHub releases
  * and places it in the package's bin/ directory.
@@ -12,7 +12,7 @@ const os = require("os");
 const path = require("path");
 const https = require("https");
 
-const REPO = "suatkocar/codegraph";
+const REPO = "workmule/codegraph";
 const BINARY = "codegraph"; // Rust binary name in GitHub releases
 const LOCAL_NAME = "codegraph-native"; // Local binary name (wrapper calls this)
 const BIN_DIR = path.join(__dirname, "bin");
@@ -24,7 +24,7 @@ function getPlatformTarget() {
   const targets = {
     "darwin-arm64": "aarch64-apple-darwin",
     "darwin-x64": "x86_64-apple-darwin",
-    "linux-x64": "x86_64-unknown-linux-gnu",
+    "linux-x64": "x86_64-unknown-linux-musl",
     "linux-arm64": "aarch64-unknown-linux-gnu",
   };
 

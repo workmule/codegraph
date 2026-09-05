@@ -11,22 +11,12 @@ permissions:
 env:
   CARGO_TERM_COLOR: always
   BINARY_NAME: codegraph
+  # Only Linux x86_64 static musl is built — runs on any glibc version.
+  TARGET: x86_64-unknown-linux-musl
 
 jobs:
   build:
-    strategy:
-      matrix:
-        include:
-          - target: aarch64-apple-darwin
-            os: macos-latest
-          - target: x86_64-apple-darwin
-            os: macos-latest
-          - target: x86_64-unknown-linux-musl
-            os: ubuntu-latest
-          - target: aarch64-unknown-linux-gnu
-            os: ubuntu-latest
-
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -34,41 +24,32 @@ jobs:
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.target }}
+          targets: ${{ env.TARGET }}
 
-      - name: Install cross-compilation tools (Linux x86_64 musl)
-        if: matrix.target == 'x86_64-unknown-linux-musl'
+      - name: Install musl cross-compilation tools
         run: |
-          # Use cargo-zigbuild (bundles zig) — matches the local Makefile path.
-          cargo install cargo-zigbuild --locked
+          sudo apt-get update
+          sudo apt-get install -y musl-tools
+          echo "CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_LINKER=musl-gcc" >> $GITHUB_ENV
+          echo "CC_x86_64_unknown_linux_musl=musl-gcc" >> $GITHUB_ENV
 
-      - name: Build release binary (x86_64 musl, static)
-        if: matrix.target == 'x86_64-unknown-linux-musl'
+      - name: Build static musl binary
         env:
           # sqlite-vec 0.1.6 uses BSD-style u_int*_t types that musl does not
           # define; map them to the standard uint*_t so the C code compiles.
           CFLAGS: -Du_int8_t=uint8_t -Du_int16_t=uint16_t -Du_int32_t=uint32_t -Du_int64_t=uint64_t
-        run: cargo zigbuild --release --target ${{ matrix.target }} --no-default-features
+        run: cargo build --release --target ${{ env.TARGET }} --no-default-features
 
-      - name: Install cross-compilation tools (Linux ARM)
-        if: matrix.target == 'aarch64-unknown-linux-gnu'
+      - name: Verify statically linked
         run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
-          echo "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc" >> $GITHUB_ENV
-          echo "CC_aarch64_unknown_linux_gnu=aarch64-linux-gnu-gcc" >> $GITHUB_ENV
-          echo "CXX_aarch64_unknown_linux_gnu=aarch64-linux-gnu-g++" >> $GITHUB_ENV
-
-      - name: Build release binary (non-musl targets)
-        if: matrix.target != 'x86_64-unknown-linux-musl'
-        run: cargo build --release --target ${{ matrix.target }} --no-default-features
+          file target/${{ env.TARGET }}/release/${{ env.BINARY_NAME }}
+          ldd target/${{ env.TARGET }}/release/${{ env.BINARY_NAME }} 2>&1 || true
 
       - name: Package binary
-        shell: bash
         run: |
           TAG="${GITHUB_REF#refs/tags/}"
-          ARCHIVE="${BINARY_NAME}-${TAG}-${{ matrix.target }}.tar.gz"
-          cd target/${{ matrix.target }}/release
+          ARCHIVE="${BINARY_NAME}-${TAG}-${{ env.TARGET }}.tar.gz"
+          cd target/${{ env.TARGET }}/release
           tar czf "../../../${ARCHIVE}" "${BINARY_NAME}"
           cd ../../..
           echo "ARCHIVE=${ARCHIVE}" >> $GITHUB_ENV
@@ -76,7 +57,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.target }}
+          name: ${{ env.TARGET }}
           path: ${{ env.ARCHIVE }}
 
   release:
@@ -86,9 +67,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download all artifacts
+      - name: Download artifact
         uses: actions/download-artifact@v4
         with:
+          name: ${{ env.TARGET }}
           path: artifacts
 
       - name: Create GitHub Release
@@ -97,12 +79,10 @@ jobs:
         run: |
           TAG="${GITHUB_REF#refs/tags/}"
 
-          # Create release if it doesn't exist yet
           gh release create "$TAG" \
             --title "CodeGraph $TAG" \
             --generate-notes \
             2>/dev/null || true
 
-          # Upload all platform archives (--clobber replaces existing assets)
           find artifacts -name "*.tar.gz" -type f -exec \
             gh release upload "$TAG" {} --clobber \;

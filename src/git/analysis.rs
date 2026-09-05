@@ -53,7 +53,7 @@ pub fn hotspots(repo_path: &Path, limit: usize) -> Result<Vec<Hotspot>, CodeGrap
         })
         .collect();
 
-    hotspots.sort_by(|a, b| b.commit_count.cmp(&a.commit_count));
+    hotspots.sort_by_key(|a| std::cmp::Reverse(a.commit_count));
     hotspots.truncate(limit);
 
     Ok(hotspots)

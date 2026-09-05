@@ -80,12 +80,12 @@ impl SecuritySummary {
             *counts.entry(f.rule_name.clone()).or_insert(0) += 1;
         }
         let mut top: Vec<_> = counts.into_iter().collect();
-        top.sort_by(|a, b| b.1.cmp(&a.1));
+        top.sort_by_key(|a| std::cmp::Reverse(a.1));
         top.truncate(10);
         self.top_issues = top;
 
         // Sort findings: Critical first.
-        self.findings.sort_by(|a, b| b.severity.cmp(&a.severity));
+        self.findings.sort_by_key(|a| std::cmp::Reverse(a.severity));
     }
 }
 
@@ -134,7 +134,7 @@ pub fn scan_file(
         }
     }
 
-    findings.sort_by(|a, b| b.severity.cmp(&a.severity));
+    findings.sort_by_key(|a| std::cmp::Reverse(a.severity));
     findings
 }
 

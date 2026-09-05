@@ -90,7 +90,7 @@ pub fn handle_complexity(
     let mut results = complexity::calculate_all_complexities(&store.conn);
     let threshold = min_complexity.unwrap_or(5);
     results.retain(|r| r.cyclomatic >= threshold);
-    results.sort_by(|a, b| b.cyclomatic.cmp(&a.cyclomatic));
+    results.sort_by_key(|a| std::cmp::Reverse(a.cyclomatic));
 
     json_text(&serde_json::json!({
         "threshold": threshold,

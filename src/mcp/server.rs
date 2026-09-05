@@ -1161,7 +1161,7 @@ impl ServerHandler for CodeGraphServer {
                     *lang_counts.entry(node.language.to_string()).or_default() += 1;
                 }
                 let mut langs: Vec<_> = lang_counts.into_iter().collect();
-                langs.sort_by(|a, b| b.1.cmp(&a.1));
+                langs.sort_by_key(|a| std::cmp::Reverse(a.1));
 
                 // Top symbols by PageRank
                 let ranking = GraphRanking::new(&store);

@@ -358,7 +358,7 @@ fn cmd_init(directory: &str, non_interactive: bool) {
         *lang_counts.entry(lang.to_string()).or_default() += 1;
     }
     let mut lang_sorted: Vec<(String, usize)> = lang_counts.into_iter().collect();
-    lang_sorted.sort_by(|a, b| b.1.cmp(&a.1));
+    lang_sorted.sort_by_key(|a| std::cmp::Reverse(a.1));
 
     // Detect frameworks
     let detected_frameworks = codegraph::resolution::frameworks::detect_frameworks(directory);
